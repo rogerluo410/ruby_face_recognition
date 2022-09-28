@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['rogerluo410@gmail.com']
 
   spec.summary       = 'A Ruby wrapper for face recognition.'
-  spec.description   = 'A wrapper for recognize and manipulate faces of Ruby version.'
+  spec.description   = 'A Ruby wrapper for recognize and manipulate faces.'
   spec.homepage      = 'https://github.com/rogerluo410/ruby_face_recognition'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
