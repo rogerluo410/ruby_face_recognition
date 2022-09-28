@@ -1,5 +1,7 @@
 # RubyFaceRecognition
 
+[![GitHub license](https://img.shields.io/github/license/rogerluo410/ruby_face_recognition)](https://img.shields.io/github/license/rogerluo410/ruby_face_recognition)
+
 A Ruby wrapper for recognize and manipulate faces.  
 
 ## Enables
@@ -14,7 +16,7 @@ A Ruby wrapper for recognize and manipulate faces.
 
  - python 3
     
-  * Install python 3.7 and face recognition
+    * Install python 3.7 and face recognition
 
         1) If use `pyenv`, install python with command to load libpython in pycall:
 
@@ -29,7 +31,7 @@ A Ruby wrapper for recognize and manipulate faces.
 
             pip3 install face_recognition
 
-  * Another way for ubuntu
+    * Another way for ubuntu
 
         1) Make install python3 and pip3
 
