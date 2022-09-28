@@ -1,8 +1,10 @@
 # RubyFaceRecognition
 
-A wrapper for recognize and manipulate faces of Ruby version.
+A Ruby wrapper for recognize and manipulate faces.
 
 ## Dependencies
+
+ - pycall >= 1.4.1, see https://github.com/mrkn/pycall.rb for more.
 
  - python 3
     
@@ -15,7 +17,7 @@ A wrapper for recognize and manipulate faces of Ruby version.
 
         2) Export LIBPYTHON environment variable:
 
-            export LIBPYTHON="/Users/roger/.pyenv/versions/3.7.0/lib/libpython3.7m.a"
+            export LIBPYTHON="/Users/xxx/.pyenv/versions/3.7.0/lib/libpython3.7m.a"
 
         3) Install face recognition tool, see https://github.com/ageitgey/face_recognition:
 
@@ -39,7 +41,7 @@ A wrapper for recognize and manipulate faces of Ruby version.
 
             pip3 install face_recognition
 
- - pip3 install face_recognition, see https://github.com/ageitgey/face_recognition for more.
+ - face_recognition, see https://github.com/ageitgey/face_recognition for more.
 
 ## Installation
 
@@ -59,7 +61,34 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+    require 'ruby_face_recognition'
+
+    # Images see ./examples folder
+    wdz1_doubles = FaceRecognition.fetch_face_encoding('./wdz1.jpeg')
+    wdz2_doubles = FaceRecognition.fetch_face_encoding('./wdz2.jpeg')
+    ycg1_doubles = FaceRecognition.fetch_face_encoding('./ycg1.jpeg')
+    ycg2_doubles = FaceRecognition.fetch_face_encoding('./ycg2.jpeg')
+
+    pp "wdz1 and wdz2 is same: #{FaceRecognition.same_person?(wdz1_doubles,
+                                                            wdz2_doubles)}, tolerant is #{FaceRecognition.get_tolerant(
+                                                                wdz1_doubles, wdz2_doubles
+                                                            )}"
+    pp "wdz1 and ycg1 is same: #{FaceRecognition.same_person?(wdz1_doubles,
+                                                            ycg1_doubles)}, tolerant is #{FaceRecognition.get_tolerant(
+                                                                wdz1_doubles, ycg1_doubles
+                                                            )}"
+    pp "ycg1 and ycg2 is same: #{FaceRecognition.same_person?(ycg1_doubles,
+                                                            ycg2_doubles)}, tolerant is #{FaceRecognition.get_tolerant(
+                                                                ycg1_doubles, ycg2_doubles
+                                                            )}"
+
+    #Output:
+    "wdz1 and wdz2 is same: true, tolerant is 0.31643992115339953"
+    "wdz1 and ycg1 is same: false, tolerant is 1.1141872408732252"
+    "ycg1 and ycg2 is same: true, tolerant is 0.338220706580959"
+
+```
 
 ## Development
 
