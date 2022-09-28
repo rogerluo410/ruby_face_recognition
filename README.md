@@ -6,7 +6,7 @@ A Ruby wrapper for recognize and manipulate faces.
 
   * Fetch face encoding.    
   * Get distance between two face encodings.  
-  * Compare two faces are same.  
+  * Compare two faces are same person.  
 
 ## Dependencies
 
