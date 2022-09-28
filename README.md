@@ -21,32 +21,53 @@ A Ruby wrapper for recognize and manipulate faces.
 
         1) If use `pyenv`, install python with command to load libpython in pycall:
 
+            ```
             envPYTHON_CONFIGURE_OPTS="--enable-framework" CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" pyenv install 3.7.0
-
+            ```
 
         2) Export LIBPYTHON environment variable:
 
+            ```
             export LIBPYTHON="/Users/xxx/.pyenv/versions/3.7.0/lib/libpython3.7m.a"
+            ```
 
         3) Install face recognition tool, see https://github.com/ageitgey/face_recognition:
 
+            ```
             pip3 install face_recognition
+            ```
 
     * Another way for ubuntu
 
-        1) Make install python3 and pip3
+        1) Install python3 and pip3  
 
         2) Install dlib
-        
+         
+            ```
             git clone https://github.com/davisking/dlib.git
+            ```
+            
+            ```
             cd dlib
+            ```
+            
+            ```
             mkdir build; cd build; cmake ..; cmake --build .
+            ```
+            
+            ```
             cd ..
+            ```
+            
+            ```
             python3 setup.py install
+            ```       
 
         3) Install plugin
 
+            ```
             pip3 install face_recognition
+            ```    
 
  - face_recognition, see https://github.com/ageitgey/face_recognition for more.
 
@@ -69,31 +90,31 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-    require 'ruby_face_recognition'
+  require 'ruby_face_recognition'
 
-    # See ./examples folder for images
-    wdz1_doubles = FaceRecognition.fetch_face_encoding('./wdz1.jpeg')
-    wdz2_doubles = FaceRecognition.fetch_face_encoding('./wdz2.jpeg')
-    ycg1_doubles = FaceRecognition.fetch_face_encoding('./ycg1.jpeg')
-    ycg2_doubles = FaceRecognition.fetch_face_encoding('./ycg2.jpeg')
+  # See ./examples folder for images
+  wdz1_doubles = FaceRecognition.fetch_face_encoding('./wdz1.jpeg')
+  wdz2_doubles = FaceRecognition.fetch_face_encoding('./wdz2.jpeg')
+  ycg1_doubles = FaceRecognition.fetch_face_encoding('./ycg1.jpeg')
+  ycg2_doubles = FaceRecognition.fetch_face_encoding('./ycg2.jpeg')
 
-    pp "wdz1 and wdz2 is same: #{FaceRecognition.same_person?(wdz1_doubles,
-                                                            wdz2_doubles)}, tolerant is #{FaceRecognition.get_tolerant(
-                                                                wdz1_doubles, wdz2_doubles
-                                                            )}"
-    pp "wdz1 and ycg1 is same: #{FaceRecognition.same_person?(wdz1_doubles,
-                                                            ycg1_doubles)}, tolerant is #{FaceRecognition.get_tolerant(
-                                                                wdz1_doubles, ycg1_doubles
-                                                            )}"
-    pp "ycg1 and ycg2 is same: #{FaceRecognition.same_person?(ycg1_doubles,
-                                                            ycg2_doubles)}, tolerant is #{FaceRecognition.get_tolerant(
-                                                                ycg1_doubles, ycg2_doubles
-                                                            )}"
+  pp "wdz1 and wdz2 is same: #{FaceRecognition.same_person?(wdz1_doubles,
+                                                          wdz2_doubles)}, tolerant is #{FaceRecognition.get_tolerant(
+                                                              wdz1_doubles, wdz2_doubles
+                                                          )}"
+  pp "wdz1 and ycg1 is same: #{FaceRecognition.same_person?(wdz1_doubles,
+                                                          ycg1_doubles)}, tolerant is #{FaceRecognition.get_tolerant(
+                                                              wdz1_doubles, ycg1_doubles
+                                                          )}"
+  pp "ycg1 and ycg2 is same: #{FaceRecognition.same_person?(ycg1_doubles,
+                                                          ycg2_doubles)}, tolerant is #{FaceRecognition.get_tolerant(
+                                                              ycg1_doubles, ycg2_doubles
+                                                          )}"
 
-    #Output:
-    "wdz1 and wdz2 is same: true, tolerant is 0.31643992115339953"
-    "wdz1 and ycg1 is same: false, tolerant is 1.1141872408732252"
-    "ycg1 and ycg2 is same: true, tolerant is 0.338220706580959"
+  #Output:
+  "wdz1 and wdz2 is same: true, tolerant is 0.31643992115339953"
+  "wdz1 and ycg1 is same: false, tolerant is 1.1141872408732252"
+  "ycg1 and ycg2 is same: true, tolerant is 0.338220706580959"
 
 ```
 
@@ -103,36 +124,38 @@ Assuming Database is postgresql:
 
   - Create field to save face encoding.   
 
-    `add_column :table_name, :column_name, :float, array: true, comment: 'face encoding'`  
+    ```   
+    add_column :table_name, :column_name, :float, array: true, comment: 'face encoding'
+    ```  
 
   - Create distance function script to Databse.   
 
     ```ruby
-        class AddDistanceFunctionToDb < ActiveRecord::Migration[6.1]
-            def self.up
-                execute "CREATE OR REPLACE FUNCTION distance(l double precision[], r double precision[]) RETURNS double precision AS $$
-                DECLARE
-                    s double precision;
-                BEGIN
-                    s := 0;
-                    FOR i IN 1..128 LOOP
-                    s := s + power(l[i] - r[i], 2);
-                    END LOOP;
-                    RETURN sqrt(s);
-                END;
-                $$ LANGUAGE plpgsql;"
-            end
-            def self.down
-                execute "drop function distance(l double precision[], r double precision[]) cascade"
-            end
-        end
+      class AddDistanceFunctionToDb < ActiveRecord::Migration[6.1]
+          def self.up
+              execute "CREATE OR REPLACE FUNCTION distance(l double precision[], r double precision[]) RETURNS double precision AS $$
+              DECLARE
+                  s double precision;
+              BEGIN
+                  s := 0;
+                  FOR i IN 1..128 LOOP
+                  s := s + power(l[i] - r[i], 2);
+                  END LOOP;
+                  RETURN sqrt(s);
+              END;
+              $$ LANGUAGE plpgsql;"
+          end
+          def self.down
+              execute "drop function distance(l double precision[], r double precision[]) cascade"
+          end
+      end
 
     ```  
 
   - Use distance function in SQL  
 
     ```sql
-       tolerant = ActiveRecord::Base.connection.exec_query("select distance(ARRAY#{face_encoding1}, ARRAY#{face_encoding2})").rows[0][0]
+    tolerant = ActiveRecord::Base.connection.exec_query("select distance(ARRAY#{face_encoding1}, ARRAY#{face_encoding2})").rows[0][0]
     ```  
 
 ## Development
