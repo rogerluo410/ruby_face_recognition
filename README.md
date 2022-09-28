@@ -5,6 +5,40 @@ A wrapper for recognize and manipulate faces of Ruby version.
 ## Dependencies
 
  - python 3
+    
+   * Install python 3.7 and face recognition
+
+        1) If use `pyenv`, install python with command to load libpython in pycall:
+
+            envPYTHON_CONFIGURE_OPTS="--enable-framework" CFLAGS="-I$(xcrun --show-sdk-path)/usr/include" pyenv install 3.7.0
+
+
+        2) Export LIBPYTHON environment variable:
+
+            export LIBPYTHON="/Users/roger/.pyenv/versions/3.7.0/lib/libpython3.7m.a"
+
+        3) Install face recognition tool, see https://github.com/ageitgey/face_recognition:
+
+            pip3 install face_recognition
+
+  * Another way for ubuntu
+
+        1) Make install python3 and pip3
+
+        2) Install dlib
+
+            ```
+            git clone https://github.com/davisking/dlib.git
+            cd dlib
+            mkdir build; cd build; cmake ..; cmake --build .
+            cd ..
+            python3 setup.py install
+            ```
+
+        3) Install plugin
+
+            pip3 install face_recognition
+
  - pip3 install face_recognition, see https://github.com/ageitgey/face_recognition for more.
 
 ## Installation
