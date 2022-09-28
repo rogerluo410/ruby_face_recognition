@@ -1,6 +1,12 @@
 # RubyFaceRecognition
 
-A Ruby wrapper for recognize and manipulate faces.
+A Ruby wrapper for recognize and manipulate faces.  
+
+## Enables
+
+  * Fetch face encoding.    
+  * Get distance between two face encodings.  
+  * Compare two faces are same.  
 
 ## Dependencies
 
@@ -30,11 +36,11 @@ A Ruby wrapper for recognize and manipulate faces.
         2) Install dlib
 
             ```
-            git clone https://github.com/davisking/dlib.git
-            cd dlib
-            mkdir build; cd build; cmake ..; cmake --build .
-            cd ..
-            python3 setup.py install
+                git clone https://github.com/davisking/dlib.git
+                cd dlib
+                mkdir build; cd build; cmake ..; cmake --build .
+                cd ..
+                python3 setup.py install
             ```
 
         3) Install plugin
@@ -89,6 +95,44 @@ Or install it yourself as:
     "ycg1 and ycg2 is same: true, tolerant is 0.338220706580959"
 
 ```
+
+### Use in Rails
+
+Assuming Database is postgresql: 
+
+  - Create field to save face encoding.   
+
+    `add_column :table_name, :column_name, :float, array: true, comment: 'face encoding'`  
+
+  - Create distance function script to Databse.   
+
+    ```ruby
+        class AddDistanceFunctionToDb < ActiveRecord::Migration[6.1]
+            def self.up
+                execute "CREATE OR REPLACE FUNCTION distance(l double precision[], r double precision[]) RETURNS double precision AS $$
+                DECLARE
+                    s double precision;
+                BEGIN
+                    s := 0;
+                    FOR i IN 1..128 LOOP
+                    s := s + power(l[i] - r[i], 2);
+                    END LOOP;
+                    RETURN sqrt(s);
+                END;
+                $$ LANGUAGE plpgsql;"
+            end
+            def self.down
+                execute "drop function distance(l double precision[], r double precision[]) cascade"
+            end
+        end
+
+    ```  
+
+    - Use distance function in SQL  
+
+    ```sql
+       tolerant = ActiveRecord::Base.connection.exec_query("select distance(ARRAY#{face_encoding1}, ARRAY#{face_encoding2})").rows[0][0]
+    ```  
 
 ## Development
 
