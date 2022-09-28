@@ -1,5 +1,6 @@
 # RubyFaceRecognition
 
+[![Gem Version](https://badge.fury.io/rb/ruby_face_recognition.svg)](https://badge.fury.io/rb/ruby_face_recognition.svg)
 [![GitHub license](https://img.shields.io/github/license/rogerluo410/ruby_face_recognition)](https://img.shields.io/github/license/rogerluo410/ruby_face_recognition)
 
 A Ruby wrapper for recognize and manipulate faces.  
