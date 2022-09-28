@@ -14,7 +14,7 @@ A Ruby wrapper for recognize and manipulate faces.
 
  - python 3
     
-   * Install python 3.7 and face recognition
+  * Install python 3.7 and face recognition
 
         1) If use `pyenv`, install python with command to load libpython in pycall:
 
@@ -34,14 +34,12 @@ A Ruby wrapper for recognize and manipulate faces.
         1) Make install python3 and pip3
 
         2) Install dlib
-
-            ```
-                git clone https://github.com/davisking/dlib.git
-                cd dlib
-                mkdir build; cd build; cmake ..; cmake --build .
-                cd ..
-                python3 setup.py install
-            ```
+        
+            git clone https://github.com/davisking/dlib.git
+            cd dlib
+            mkdir build; cd build; cmake ..; cmake --build .
+            cd ..
+            python3 setup.py install
 
         3) Install plugin
 
@@ -70,7 +68,7 @@ Or install it yourself as:
 ```ruby
     require 'ruby_face_recognition'
 
-    # Images see ./examples folder
+    # See ./examples folder for images
     wdz1_doubles = FaceRecognition.fetch_face_encoding('./wdz1.jpeg')
     wdz2_doubles = FaceRecognition.fetch_face_encoding('./wdz2.jpeg')
     ycg1_doubles = FaceRecognition.fetch_face_encoding('./ycg1.jpeg')
@@ -128,7 +126,7 @@ Assuming Database is postgresql:
 
     ```  
 
-    - Use distance function in SQL  
+  - Use distance function in SQL  
 
     ```sql
        tolerant = ActiveRecord::Base.connection.exec_query("select distance(ARRAY#{face_encoding1}, ARRAY#{face_encoding2})").rows[0][0]
