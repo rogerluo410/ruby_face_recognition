@@ -122,13 +122,13 @@ Or install it yourself as:
 
 Assuming Database is postgresql: 
 
-  - Create field to save face encoding.   
+  - Create column to save face encoding.   
 
     ```   
     add_column :table_name, :column_name, :float, array: true, comment: 'face encoding'
     ```  
 
-  - Create distance function script to Databse.   
+  - Create calculating distance function script to Database.   
 
     ```ruby
       class AddDistanceFunctionToDb < ActiveRecord::Migration[6.1]
